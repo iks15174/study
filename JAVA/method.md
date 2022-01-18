@@ -50,3 +50,44 @@ int add(int x, int y){
     ```
   - x, y, result는 모두 지역변수이다.
   - add와 multiply 메서드는 각각 x, y, result라는 지역변수를 가진다.
+
+## 메서드의 호출
+
+- 메서드이름(값1, 값2, ...) 방식으로 호출한다.
+- void는 return할 게 없을 때 사용한다.
+
+```java
+class Ex6{
+    public static void main(String args[]){
+        MyMath mm = new MyMath();
+        long result1 = mm.add(5L, 3L); //8이 들어간다.
+    }
+}
+
+class MyMath{
+    long add(long a, long b){
+        return a + b;
+    }
+}
+```
+
+- add의 파라미터로 5, 3을 넣어줘도 괜찮다.
+- 메서드는 return 이후에 실행중인 메서드를 종료하고 호출한 곳으로 되돌아간다.
+- 반환타입이 void 이면 return문을 생략할 수 있다. void가 아니면 반드시 반환타입으로 값을 return 해줘야 한다.
+
+```java
+int max(int a, int b){
+    if(a > b) return a;
+}
+```
+
+- 위와 같은 예제는 b가 더 클 때 return 문이 없는 것과 마찬가지이다. 그러므로 에러가 난다. 아래와 같이 바꿔줘야 한다.
+
+```java
+int max(int a, int b){
+    if(a > b) return a;
+    else return b;
+}
+```
+
+- 반환타입이 int일 때 int로 자동형변환 될 수 있는 타입들(char, byte, short)도 return 할 수 있다.
