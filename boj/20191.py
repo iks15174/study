@@ -1,7 +1,7 @@
+## 다시 풀어볼것
 import sys
 import string
 import heapq
-import copy
 
 input = sys.stdin.readline
 s = input().strip()
