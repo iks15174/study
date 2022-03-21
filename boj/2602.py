@@ -25,14 +25,4 @@ def solve(last_idx, magic_idx, order):
     return ans
 
 
-result = 0
-for idx, d in enumerate(devil):  # 악마다리부터 시작할 때
-    if d == magic[0]:
-        result += solve(idx, 1, 1)
-
-for idx, a in enumerate(angel):  # 천사다리부터 시작할 때
-    if a == magic[0]:
-        result += solve(idx, 1, 0)
-
-
-print(result)
+print(solve(-1, 0, 1) + solve(-1, 0, 0))
