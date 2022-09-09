@@ -1,3 +1,4 @@
+import copy
 d = [[-1, 0], [-1, -1], [0, -1], [1, -1], [1, 0], [1, 1], [0, 1], [-1, 1]]
 board = [[0] * 4 for _ in range(4)]
 fish_pos = [[] for _ in range(17)]
@@ -44,7 +45,7 @@ def init(): # 상어가 (0, 0)에 들어가 먹이를 먹는다.
     direct = fish_pos[fish_num][2]
     fish_pos[fish_num][2] = -1
     board[0][0] = 17
-    return direct
+    return [direct, fish_num]
 
 
 def shark_feed_candidate(shark_pos): #상어의 먹이 후보를 return 한다.
@@ -62,11 +63,14 @@ def shark_feed_candidate(shark_pos): #상어의 먹이 후보를 return 한다.
  
 def solve(shark_pos, cnt):
     global board, d, fish_pos, ans
+    before_move = copy.deepcopy(board)
+    before_fish_pos = copy.deepcopy(fish_pos)
     move_fish()
-    print(fish_pos)
     sfc = shark_feed_candidate(shark_pos)
     if len(sfc) == 0:
         ans = max(ans, cnt)
+        board = before_move
+        fish_pos = before_fish_pos
         return
     for cr, cc in sfc:
          origin_fish = board[cr][cc]
@@ -78,8 +82,10 @@ def solve(shark_pos, cnt):
          board[cr][cc] = origin_fish
          fish_pos[origin_fish][2] = origin_fish_dir
          board[shark_pos[0]][shark_pos[1]] = 17
+    board = before_move
+    fish_pos = before_fish_pos
+    
          
-init_dir = init()
-print(fish_pos)
-solve([0, 0, init_dir], 0)
+init_dir, init_cnt = init()
+solve([0, 0, init_dir], init_cnt)
 print(ans)
