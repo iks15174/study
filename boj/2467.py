@@ -30,16 +30,17 @@ ans = [liquids[0], liquids[1]]
 val = abs(liquids[0] + liquids[1])
 for idx, l in enumerate(liquids):
     new_idx = bisect.bisect_left(liquids, -l)
-    if new_idx == idx:
-        continue
     if new_idx == len(liquids):
         new_idx -= 1
-    if abs(liquids[new_idx] + l) < val:
+    if (not new_idx == idx) and abs(liquids[new_idx] + l) < val:
         val = abs(liquids[new_idx] + l)
         ans = [liquids[new_idx], l]
-    if new_idx - 1 >= 0 and abs(liquids[new_idx - 1] + l) < val:
+    if (not new_idx - 1 == idx) and new_idx - 1 >= 0 and abs(liquids[new_idx - 1] + l) < val:
         val = abs(liquids[new_idx - 1] + l)
         ans = [liquids[new_idx - 1], l]
+    if (not new_idx + 1 == idx) and new_idx + 1 < len(liquids) and abs(liquids[new_idx + 1] + l) < val:
+        val = abs(liquids[new_idx + 1] + l)
+        ans = [liquids[new_idx + 1], l]
     
 print(' '.join(map(str, sorted(ans))))
 
