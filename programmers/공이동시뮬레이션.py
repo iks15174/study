@@ -25,3 +25,33 @@ def solution(n, m, row, col, queries):
             return 0
             
     return (rng[1] - rng[0] + 1) * (rng[3] - rng[2] + 1)
+
+
+def solution(n, m, row, col, queries):
+    queries.reverse()
+    move = [[0, -1], [0, 1], [-1, 0], [1, 0]]
+    lr, lc, rr, rc = row, col, row, col
+    for cmd, dx in queries:
+        prev_lr = lr - move[cmd][0] * dx
+        prev_lc = lc - move[cmd][1] * dx
+        prev_rr = rr - move[cmd][0] * dx
+        prev_rc = rc - move[cmd][1] * dx
+        
+        if cmd == 0 and lc == 0:
+            prev_lc = lc
+        elif cmd == 1 and rc == m - 1:
+            prev_rc = rc
+        elif cmd == 2 and lr == 0:
+            prev_lr = lr
+        elif cmd == 3 and rr == n - 1:
+            prev_rr = rr
+        
+        if prev_lc >= m or prev_rc < 0 or prev_lr >= n or prev_rr < 0:
+            return 0
+        
+        lr = max(0, prev_lr)
+        lc = max(0, prev_lc)
+        rr = min(n - 1, prev_rr)
+        rc = min(m - 1, prev_rc)
+        
+    return (rr - lr + 1) * (rc - lc + 1)
