@@ -42,3 +42,27 @@ def solve(alp, cop, problems):
 def solution(alp, cop, problems):
     solve(alp, cop, problems)
     return dp[alp][cop]
+
+import math
+
+def solution(alp, cop, problems):
+    max_val = 150
+    problems.append([0, 0, 0, 1, 1])
+    problems.append([0, 0, 1, 0, 1])
+    
+    target_alp = max(list(map(lambda x : x[0], problems)))
+    target_cop = max(list(map(lambda x : x[1], problems)))
+    dp = [[math.inf] * (max_val + 1) for _ in range(max_val + 1)]
+ 
+    dp[cop][alp] = 0
+    ans = math.inf
+    for ccop in range(cop, max_val + 1, 1):
+        for calp in range(alp, max_val + 1, 1):
+            for alp_req, cop_req, alp_rwd, cop_rwd, cost in problems:
+                if ccop >= cop_req and calp >= alp_req:
+                    next_cop = ccop + cop_rwd if ccop + cop_rwd <= max_val else max_val
+                    next_alp = calp + alp_rwd if calp + alp_rwd <= max_val else max_val
+                    dp[next_cop][next_alp] = min(dp[next_cop][next_alp], dp[ccop][calp] + cost)
+                    if next_cop >= target_cop and next_alp >= target_alp:
+                        ans = min(ans, dp[next_cop][next_alp])
+    return ans
